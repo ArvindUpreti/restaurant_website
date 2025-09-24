@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Favicon / Logo for Title -->
-    <link rel="icon" type="image/png" href="uk_momo.png">
-
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <title>U.K Momo's - Authentic Taste Delivered</title>
     <style>
         * {
@@ -16,25 +13,29 @@
         }
 
         :root {
-            --primary-gold: #ffcc00;
-            --secondary-orange: #ff9900;
-            --accent-red: #ff4444;
+            --primary-gold: #ffd700;
+            --secondary-orange: #ff9500;
+            --accent-red: #ff4757;
+            --accent-pink: #ff6b9d;
             --dark-bg: #0a0a0a;
-            --card-bg: rgba(26, 26, 26, 0.95);
+            --card-bg: rgba(20, 20, 20, 0.95);
             --text-light: #ffffff;
             --text-muted: #cccccc;
+            --gradient-1: linear-gradient(135deg, #ffd700, #ff9500);
+            --gradient-2: linear-gradient(135deg, #ff4757, #ff6b9d);
+            --gradient-3: linear-gradient(135deg, #0a0a0a, #1a1a1a);
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a1a 100%);
+            background: var(--gradient-3);
             color: var(--text-light);
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Animated background particles */
+        /* Animated background */
         body::before {
             content: '';
             position: fixed;
@@ -42,330 +43,416 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                radial-gradient(circle at 20% 50%, rgba(255, 204, 0, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 153, 0, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(255, 68, 68, 0.06) 0%, transparent 50%);
-            animation: float 20s ease-in-out infinite;
+            background: 
+                radial-gradient(circle at 15% 30%, rgba(255, 215, 0, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 85% 70%, rgba(255, 71, 87, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(255, 107, 157, 0.06) 0%, transparent 40%);
+            animation: bgFloat 25s ease-in-out infinite;
             pointer-events: none;
             z-index: -1;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            33% { transform: translateY(-20px) rotate(1deg); }
-            66% { transform: translateY(10px) rotate(-1deg); }
+        @keyframes bgFloat {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.8; }
+            33% { transform: scale(1.1) rotate(2deg); opacity: 0.6; }
+            66% { transform: scale(0.9) rotate(-1deg); opacity: 1; }
+        }
+
+        /* Floating particles */
+        .particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle::before {
+            content: '🥟';
+            font-size: 20px;
+            opacity: 0.3;
+            animation: particleFloat 15s infinite linear;
+        }
+
+        @keyframes particleFloat {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Sticky floating header */
+        .floating-header {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-1);
+            padding: 15px 30px;
+            border-radius: 50px;
+            z-index: 1000;
+            box-shadow: 
+                0 10px 40px rgba(255, 215, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            animation: headerFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes headerFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        .call-button {
+            color: #000;
+            font-weight: 900;
+            text-decoration: none;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .call-button:hover {
+            transform: scale(1.05);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .phone-icon {
+            animation: ring 2s infinite;
+        }
+
+        @keyframes ring {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-10deg) scale(1.1); }
+            75% { transform: rotate(10deg) scale(1.1); }
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 100px 20px 20px;
             position: relative;
             z-index: 1;
         }
 
-        /* Enhanced sticky header */
-        .top-contact {
-            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-orange));
-            padding: 12px;
+        /* Main header */
+        .main-header {
             text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 20px rgba(255, 204, 0, 0.4);
-            backdrop-filter: blur(10px);
-            animation: slideDown 0.8s ease-out;
+            margin-bottom: 60px;
+            animation: slideInDown 1s ease-out;
         }
 
-        @keyframes slideDown {
-            from { transform: translateY(-100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .call-button {
-            color: black;
-            font-weight: bold;
-            text-decoration: none;
-            font-size: 1.1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            border-radius: 50px;
-            background: rgba(255, 255, 255, 0.2);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
-            border: 2px solid transparent;
-        }
-
-        .call-button:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: scale(1.05) translateY(-2px);
-            border: 2px solid rgba(0, 0, 0, 0.1);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        .call-button:active {
-            transform: scale(0.98);
-        }
-
-        /* Enhanced header */
-        .header {
-            text-align: center;
-            margin: 40px 0;
-            animation: fadeInUp 1s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-50px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .logo-container {
-            margin-bottom: 30px;
+        .logo-section {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 25px;
+            gap: 30px;
+            margin-bottom: 40px;
             flex-wrap: wrap;
         }
 
-        .logo-placeholder {
+        .logo {
             width: 120px;
             height: 120px;
-            background: linear-gradient(135deg, var(--dark-bg), #333);
+            background: var(--gradient-1);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
+            font-size: 3rem;
             box-shadow: 
-                0 0 30px rgba(255, 204, 0, 0.6),
-                inset 0 0 20px rgba(255, 204, 0, 0.1);
-            background-size: cover;
-            background-position: center;
-            border: 3px solid var(--primary-gold);
+                0 0 40px rgba(255, 215, 0, 0.6),
+                inset 0 0 20px rgba(0, 0, 0, 0.2);
+            animation: logoSpin 4s ease-in-out infinite;
             position: relative;
             overflow: hidden;
-            animation: logoFloat 3s ease-in-out infinite;
         }
 
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(2deg); }
+        @keyframes logoSpin {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(5deg) scale(1.05); }
         }
 
-        .logo-placeholder::before {
+        .logo::before {
             content: '';
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            animation: shine 4s infinite;
-            pointer-events: none;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: shimmer 3s infinite;
         }
 
-        @keyframes shine {
+        @keyframes shimmer {
             0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
             100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
-        .logo-placeholder img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-            z-index: 2;
-            position: relative;
-        }
-
-        .header h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
+        .main-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 900;
-            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-orange), var(--accent-red));
+            background: var(--gradient-1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 4px 8px rgba(255, 204, 0, 0.3);
-            margin-bottom: 15px;
+            text-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--primary-gold);
+            font-weight: 600;
+            margin-top: 10px;
             letter-spacing: 2px;
         }
 
-        .header p {
-            font-size: 1.4rem;
-            color: var(--primary-gold);
-            font-weight: 600;
-            letter-spacing: 1px;
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-top: 20px;
+            font-style: italic;
         }
 
-        .sparkle {
-            display: inline-block;
-            animation: sparkleRotate 2s infinite;
+        /* Menu sections grid */
+        .menu-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin: 80px 0;
         }
 
-        @keyframes sparkleRotate {
-            0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
-            25% { transform: scale(1.2) rotate(90deg); opacity: 0.8; }
-            50% { transform: scale(1.1) rotate(180deg); opacity: 1; }
-            75% { transform: scale(1.3) rotate(270deg); opacity: 0.7; }
-        }
-
-        /* Enhanced delivery banner */
-        .delivery-banner {
-            background: linear-gradient(135deg, var(--accent-red), var(--primary-gold));
-            padding: 25px;
-            border-radius: 20px;
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 25px;
+            padding: 40px;
             text-align: center;
-            margin-bottom: 40px;
-            animation: pulse 3s infinite, slideInRight 1s ease-out;
-            box-shadow: 
-                0 10px 30px rgba(255, 68, 68, 0.3),
-                0 0 0 1px rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideInUp 0.8s ease-out;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
-        .delivery-banner::before {
+        @keyframes slideInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            animation: sweep 3s infinite;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: left 0.7s ease;
         }
 
-        @keyframes sweep {
-            0% { left: -100%; }
-            100% { left: 100%; }
+        .section-card:hover::before {
+            left: 100%;
         }
 
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+        .section-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border: 2px solid var(--primary-gold);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 215, 0, 0.3);
         }
 
-        .delivery-main-text {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: white;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .section-card:nth-child(1) {
+            background: linear-gradient(135deg, var(--card-bg), rgba(255, 215, 0, 0.05));
         }
 
-        .delivery-details {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.95);
-            font-weight: 600;
+        .section-card:nth-child(2) {
+            background: linear-gradient(135deg, var(--card-bg), rgba(255, 149, 0, 0.05));
         }
 
-        .delivery-icon {
-            display: inline-block;
-            font-size: 2.5rem;
-            margin-right: 15px;
+        .section-card:nth-child(3) {
+            background: linear-gradient(135deg, var(--card-bg), rgba(255, 71, 87, 0.05));
+        }
+
+        .section-icon {
+            font-size: 5rem;
+            margin-bottom: 25px;
+            display: block;
             animation: bounce 2s infinite;
         }
 
         @keyframes bounce {
             0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-
-        /* Enhanced menu sections */
-        .menu-section {
-            margin-bottom: 60px;
-            background: var(--card-bg);
-            border-radius: 25px;
-            padding: 35px;
-            border: 1px solid rgba(255, 204, 0, 0.2);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.3),
-                0 0 0 1px rgba(255, 204, 0, 0.1);
-            backdrop-filter: blur(20px);
-            animation: slideInUp 0.8s ease-out;
-            transition: all 0.3s ease;
-        }
-
-        .menu-section:hover {
-            transform: translateY(-5px);
-            box-shadow: 
-                0 30px 60px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(255, 204, 0, 0.2);
-        }
-
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 35px;
-            padding-bottom: 20px;
-            border-bottom: 3px solid transparent;
-            background: linear-gradient(90deg, var(--primary-gold), var(--secondary-orange)) bottom/100% 3px no-repeat;
-            position: relative;
-        }
-
-        .section-icon {
-            font-size: 3.5rem;
-            margin-right: 25px;
-            animation: iconPulse 2s infinite;
-        }
-
-        @keyframes iconPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            40% { transform: translateY(-15px); }
+            60% { transform: translateY(-8px); }
         }
 
         .section-title {
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-size: 2.2rem;
             font-weight: 900;
-            background: linear-gradient(45deg, var(--primary-gold), var(--secondary-orange));
+            margin-bottom: 15px;
+            background: var(--gradient-1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-description {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .section-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary-gold);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        /* Enhanced pricing header */
-        .pricing-header {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 25px;
-            padding: 18px;
-            background: linear-gradient(135deg, rgba(255, 204, 0, 0.15), rgba(255, 153, 0, 0.1));
-            border-radius: 15px;
-            font-weight: 700;
-            color: var(--primary-gold);
-            border: 1px solid rgba(255, 204, 0, 0.3);
-            backdrop-filter: blur(10px);
+        .explore-btn {
+            background: var(--gradient-1);
+            color: #000;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Enhanced menu items */
-        .menu-item {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr;
+        .explore-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: all 0.5s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .explore-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .explore-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Detail page styles */
+        .detail-page {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .detail-page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .detail-header {
+            display: flex;
+            align-items: center;
             gap: 20px;
-            padding: 20px;
-            margin-bottom: 15px;
-            background: rgba(40, 40, 40, 0.8);
-            border-radius: 15px;
-            border: 1px solid transparent;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 40px;
+            padding: 30px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 2px solid var(--primary-gold);
+        }
+
+        .back-btn {
+            background: var(--gradient-2);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
             cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .back-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+        }
+
+        .detail-title {
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .detail-icon {
+            font-size: 4rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .menu-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .menu-item {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
@@ -377,7 +464,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
             transition: left 0.5s ease;
         }
 
@@ -386,670 +473,990 @@
         }
 
         .menu-item:hover {
-            background: rgba(60, 60, 60, 0.9);
-            border: 1px solid var(--primary-gold);
-            box-shadow: 
-                0 10px 30px rgba(255, 204, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px) scale(1.02);
+            transform: translateX(10px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
         }
 
         .item-name {
-            font-size: 1.15rem;
+            font-size: 1.3rem;
+            font-weight: 700;
             color: var(--text-light);
-            font-weight: 600;
-            transition: color 0.3s ease;
+            flex-grow: 1;
         }
 
-        .menu-item:hover .item-name {
-            color: var(--primary-gold);
+        .price-container {
+            display: flex;
+            gap: 15px;
+            flex-shrink: 0;
         }
 
         .price {
+            background: var(--gradient-1);
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 20px;
             font-weight: 800;
-            color: var(--primary-gold);
-            text-align: center;
-            font-size: 1.15rem;
-            transition: all 0.3s ease;
+            font-size: 1rem;
             position: relative;
         }
 
-        .price::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: var(--secondary-orange);
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
+        .price-label {
+            font-size: 0.8rem;
+            color: rgba(0, 0, 0, 0.7);
+            margin-right: 5px;
         }
 
-        .menu-item:hover .price::after {
-            width: 80%;
-        }
-
-        /* Enhanced footer */
+        /* Footer */
         .footer {
-            background: linear-gradient(135deg, #1a1a1a, #333);
-            padding: 40px;
+            background: var(--card-bg);
+            padding: 50px;
             border-radius: 25px;
             text-align: center;
-            margin-top: 60px;
+            margin-top: 80px;
             border: 2px solid var(--primary-gold);
-            box-shadow: 
-                0 20px 40px rgba(255, 204, 0, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
             animation: slideInUp 1s ease-out;
         }
 
-        .footer h3 {
-            color: var(--primary-gold);
-            margin-bottom: 25px;
-            font-size: 2rem;
+        .footer-title {
+            font-size: 2.5rem;
             font-weight: 900;
+            color: var(--primary-gold);
+            margin-bottom: 30px;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .footer-info {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
         }
 
-        .footer-item {
-            background: rgba(255, 204, 0, 0.1);
-            padding: 20px;
+        .info-card {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 25px;
             border-radius: 15px;
-            border: 1px solid rgba(255, 204, 0, 0.3);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.3);
         }
 
-        .footer-item:hover {
-            background: rgba(255, 204, 0, 0.15);
-            transform: translateY(-3px);
-        }
-
-        .footer-item strong {
+        .info-title {
+            font-size: 1.3rem;
+            font-weight: 700;
             color: var(--primary-gold);
-            display: block;
-            margin-bottom: 8px;
-            font-size: 1.1rem;
+            margin-bottom: 10px;
         }
 
-        .delivery-note {
-            background: linear-gradient(135deg, var(--accent-red), var(--primary-gold));
-            padding: 20px;
+        .delivery-notice {
+            background: var(--gradient-2);
+            color: white;
+            padding: 25px;
             border-radius: 15px;
             font-weight: 800;
-            color: white;
-            margin-top: 25px;
-            animation: glow 3s ease-in-out infinite;
+            font-size: 1.2rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            animation: glow 3s infinite;
         }
 
         @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(255, 204, 0, 0.5); }
-            50% { box-shadow: 0 0 30px rgba(255, 204, 0, 0.8), 0 0 40px rgba(255, 68, 68, 0.3); }
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 71, 87, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(255, 71, 87, 0.8); }
         }
 
-        /* Enhanced mobile responsiveness */
+        /* Mobile responsiveness */
         @media (max-width: 768px) {
-            .container {
-                padding: 15px;
+            .floating-header {
+                top: 10px;
+                left: 10px;
+                right: 10px;
+                transform: none;
+                padding: 12px 20px;
+                border-radius: 25px;
             }
 
-            .logo-container {
+            .call-button {
+                font-size: 1rem;
+                gap: 8px;
+            }
+
+            .container {
+                padding: 80px 15px 15px;
+            }
+
+            .logo-section {
                 flex-direction: column;
                 gap: 20px;
             }
 
-            .logo-placeholder {
+            .logo {
                 width: 80px;
                 height: 80px;
                 font-size: 2rem;
             }
 
-            .menu-item {
+            .main-title {
+                font-size: 2.5rem;
+            }
+
+            .menu-sections {
                 grid-template-columns: 1fr;
-                text-align: left;
+                gap: 30px;
+            }
+
+            .section-card {
+                padding: 30px 25px;
+            }
+
+            .section-icon {
+                font-size: 4rem;
+            }
+
+            .detail-header {
+                flex-direction: column;
+                align-items: flex-start;
                 gap: 15px;
                 padding: 25px 20px;
             }
 
-            .pricing-header {
-                display: none;
-            }
-
-            .item-name {
-                margin-bottom: 15px;
-                border-bottom: 2px solid var(--primary-gold);
-                padding-bottom: 12px;
-                font-size: 1.1rem;
-                font-weight: 700;
-            }
-
-            .price {
-                display: inline-block;
-                margin: 8px 12px 8px 0;
-                background: linear-gradient(135deg, var(--primary-gold), var(--secondary-orange));
-                color: black;
-                padding: 10px 18px;
-                border-radius: 25px;
-                font-weight: 800;
-                font-size: 1rem;
-                box-shadow: 0 4px 15px rgba(255, 204, 0, 0.3);
-            }
-
-            .price:nth-of-type(2)::before {
-                content: "Half: ";
-                font-weight: 600;
-                color: rgba(0, 0, 0, 0.7);
-            }
-
-            .price:nth-of-type(3)::before {
-                content: "Full: ";
-                font-weight: 600;
-                color: rgba(0, 0, 0, 0.7);
-            }
-
-            .menu-section {
-                padding: 25px 20px;
-                margin-bottom: 40px;
-            }
-
-            .delivery-banner {
-                padding: 20px 15px;
-                font-size: 0.95rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .section-icon {
-                font-size: 2.5rem;
-                margin-right: 15px;
+            .detail-title {
+                font-size: 2rem;
             }
 
             .menu-item {
-                padding: 20px 15px;
+                padding: 20px;
             }
 
-            .price {
-                padding: 8px 15px;
-                font-size: 0.9rem;
-                margin: 6px 8px 6px 0;
+            .item-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .price-container {
+                justify-content: flex-start;
+                flex-wrap: wrap;
             }
         }
 
-        /* Add scroll animations */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease-out;
-        }
-
-        .fade-in.visible {
+        /* Loading animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
             opacity: 1;
-            transform: translateY(0);
+            transition: opacity 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 215, 0, 0.3);
+            border-top: 4px solid var(--primary-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <!-- TOP CONTACT BAR - STICKY -->
-    <div class="top-contact">
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Floating Header -->
+    <div class="floating-header">
         <a href="tel:+918700613675" class="call-button">
-            📞 Call Now: 8700613675 - Order Direct!
+            <span class="phone-icon">📞</span>
+            Call Now: 8700613675 - Order Direct!
         </a>
     </div>
 
+    <!-- Floating Particles -->
+    <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="left: 20%; animation-delay: 2s;"></div>
+    <div class="particle" style="left: 30%; animation-delay: 4s;"></div>
+    <div class="particle" style="left: 40%; animation-delay: 6s;"></div>
+    <div class="particle" style="left: 50%; animation-delay: 8s;"></div>
+    <div class="particle" style="left: 60%; animation-delay: 10s;"></div>
+    <div class="particle" style="left: 70%; animation-delay: 12s;"></div>
+    <div class="particle" style="left: 80%; animation-delay: 14s;"></div>
+
     <div class="container">
-        <div class="header">
-            <!-- LOGO SECTION -->
-            <div class="logo-container">
-                <div class="logo-placeholder">
-                    <!-- Replace with your logo -->
-                    <img src="Uk_momo.png" 
-                        alt="U.K Momo's Logo" 
-                        style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
-                </div>
-                <div>
-                    <h1><span class="sparkle">🥟</span> U.K Momo's <span class="sparkle">🍜</span></h1>
-                    <p>LAB-I</p>
+        <!-- Main Page -->
+        <div id="mainPage">
+            <!-- Header -->
+            <div class="main-header">
+                <div class="logo-section">
+                    <div class="logo">🥟</div>
+                    <div>
+                        <h1 class="main-title">U.K Momo's</h1>
+                        <p class="subtitle">LAB-I</p>
+                        <p class="tagline">Authentic Himalayan Flavors Delivered Fresh</p>
+                    </div>
                 </div>
             </div>
 
-            <div class="delivery-banner">
-                <span class="delivery-icon">🛵</span>
-                <div class="delivery-main-text">FREE HOME DELIVERY</div>
-                <div class="delivery-details">Minimum Order ₹150/- | Free Home Delivery up to 2 Km</div>
+            <!-- Menu Sections -->
+            <div class="menu-sections">
+                <div class="section-card" onclick="showSection('momos')">
+                    <span class="section-icon">🥟</span>
+                    <h2 class="section-title">Momo's</h2>
+                    <p class="section-description">Steamed, fried, and specialty momos with authentic Himalayan spices</p>
+                    <div class="section-stats">
+                        <div class="stat">
+                            <span class="stat-number">21</span>
+                            <span class="stat-label">Varieties</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">₹30</span>
+                            <span class="stat-label">Starting</span>
+                        </div>
+                    </div>
+                    <button class="explore-btn">Explore Menu</button>
+                </div>
+
+                <div class="section-card" onclick="showSection('chowmein')">
+                    <span class="section-icon">🍜</span>
+                    <h2 class="section-title">Chowmein</h2>
+                    <p class="section-description">Wok-tossed noodles with fresh vegetables and choice proteins</p>
+                    <div class="section-stats">
+                        <div class="stat">
+                            <span class="stat-number">7</span>
+                            <span class="stat-label">Varieties</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">₹50</span>
+                            <span class="stat-label">Starting</span>
+                        </div>
+                    </div>
+                    <button class="explore-btn">Explore Menu</button>
+                </div>
+
+                <div class="section-card" onclick="showSection('rice')">
+                    <span class="section-icon">🍚</span>
+                    <h2 class="section-title">Rice & Chilli</h2>
+                    <p class="section-description">Aromatic fried rice, spicy gravies, and Indo-Chinese delicacies</p>
+                    <div class="section-stats">
+                        <div class="stat">
+                            <span class="stat-number">18</span>
+                            <span class="stat-label">Varieties</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number">₹60</span>
+                            <span class="stat-label">Starting</span>
+                        </div>
+                    </div>
+                    <button class="explore-btn">Explore Menu</button>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                <h3 class="footer-title">🏪 Visit & Delivery Info</h3>
+                <div class="footer-info">
+                    <div class="info-card">
+                        <div class="info-title">📍 Location</div>
+                        <p>Shop No. 225, Parmanand Colony<br>Near SBI ATM</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-title">📞 Contact</div>
+                        <p>8700613675</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-title">🕒 Hours</div>
+                        <p>Open Daily<br>11:00 AM - 11:00 PM</p>
+                    </div>
+                </div>
+                <div class="delivery-notice">
+                    🛵 Free Delivery up to 2 KM | Minimum Order ₹150
+                </div>
             </div>
         </div>
 
-        <!-- MOMO'S SECTION -->
-        <div class="menu-section fade-in">
-            <div class="section-header">
-                <div class="section-icon">🥟</div>
-                <div class="section-title">MOMO'S</div>
+        <!-- Momo's Detail Page -->
+        <div id="momosPage" class="detail-page">
+            <div class="detail-header">
+                <button class="back-btn" onclick="showMain()">← Back to Menu</button>
+                <span class="detail-icon">🥟</span>
+                <h2 class="detail-title">MOMO'S COLLECTION</h2>
             </div>
-            <div class="pricing-header">
-                <div>Item</div>
-                <div>Half</div>
-                <div>Full</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Veg Momo's</div>
-                <div class="price">₹30/-</div>
-                <div class="price">₹60/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chicken Momo's</div>
-                <div class="price">₹40/-</div>
-                <div class="price">₹80/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Paneer Momo's</div>
-                <div class="price">₹40/-</div>
-                <div class="price">₹80/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Veg Fried Momo's</div>
-                <div class="price">₹40/-</div>
-                <div class="price">₹70/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Paneer Fried Momo's</div>
-                <div class="price">₹50/-</div>
-                <div class="price">₹90/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chicken Fried Momo's</div>
-                <div class="price">₹50/-</div>
-                <div class="price">₹90/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Corn and Paneer Momo's</div>
-                <div class="price">₹50/-</div>
-                <div class="price">₹100/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Corn and Paneer Fried Momo's</div>
-                <div class="price">₹60/-</div>
-                <div class="price">₹110/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Corn and Paneer Kurkure Momo's</div>
-                <div class="price">₹80/-</div>
-                <div class="price">₹120/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Corn and Paneer Chilli Momo's</div>
-                <div class="price">₹90/-</div>
-                <div class="price">₹140/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Veg Kurkure Momo's</div>
-                <div class="price">₹60/-</div>
-                <div class="price">₹100/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Paneer Kurkure Momo's</div>
-                <div class="price">₹80/-</div>
-                <div class="price">₹120/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chicken Kurkure Momo's</div>
-                <div class="price">₹80/-</div>
-                <div class="price">₹120/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Veg Chilli Momo's</div>
-                <div class="price">₹70/-</div>
-                <div class="price">₹120/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Paneer Chilli Momo's</div>
-                <div class="price">₹90/-</div>
-                <div class="price">₹140/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chicken Chilli Momo's</div>
-                <div class="price">₹90/-</div>
-                <div class="price">₹140/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Gravy Veg Momo's</div>
-                <div class="price">₹60/-</div>
-                <div class="price">₹100/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Gravy Chicken Momo's</div>
-                <div class="price">₹80/-</div>
-                <div class="price">₹120/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Gravy Paneer Momo's</div>
-                <div class="price">₹80/-</div>
-                <div class="price">₹120/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chicken Steam Kabab</div>
-                <div class="price">₹70/-</div>
-                <div class="price">₹130/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chicken Fried Kabab</div>
-                <div class="price">₹90/-</div>
-                <div class="price">₹150/-</div>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Veg Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹30</div>
+                            <div class="price"><span class="price-label">Full:</span>₹60</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chicken Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹40</div>
+                            <div class="price"><span class="price-label">Full:</span>₹80</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Paneer Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹40</div>
+                            <div class="price"><span class="price-label">Full:</span>₹80</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Veg Fried Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹40</div>
+                            <div class="price"><span class="price-label">Full:</span>₹70</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Paneer Fried Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹50</div>
+                            <div class="price"><span class="price-label">Full:</span>₹90</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chicken Fried Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹50</div>
+                            <div class="price"><span class="price-label">Full:</span>₹90</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Corn and Paneer Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹50</div>
+                            <div class="price"><span class="price-label">Full:</span>₹100</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Corn and Paneer Fried Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹60</div>
+                            <div class="price"><span class="price-label">Full:</span>₹110</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Corn and Paneer Kurkure Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹80</div>
+                            <div class="price"><span class="price-label">Full:</span>₹120</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Corn and Paneer Chilli Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹90</div>
+                            <div class="price"><span class="price-label">Full:</span>₹140</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Veg Kurkure Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹60</div>
+                            <div class="price"><span class="price-label">Full:</span>₹100</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Paneer Kurkure Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹80</div>
+                            <div class="price"><span class="price-label">Full:</span>₹120</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chicken Kurkure Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹80</div>
+                            <div class="price"><span class="price-label">Full:</span>₹120</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Veg Chilli Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹70</div>
+                            <div class="price"><span class="price-label">Full:</span>₹120</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Paneer Chilli Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹90</div>
+                            <div class="price"><span class="price-label">Full:</span>₹140</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chicken Chilli Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹90</div>
+                            <div class="price"><span class="price-label">Full:</span>₹140</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Gravy Veg Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹60</div>
+                            <div class="price"><span class="price-label">Full:</span>₹100</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Gravy Chicken Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹80</div>
+                            <div class="price"><span class="price-label">Full:</span>₹120</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Gravy Paneer Momo's</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹80</div>
+                            <div class="price"><span class="price-label">Full:</span>₹120</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chicken Steam Kabab</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹70</div>
+                            <div class="price"><span class="price-label">Full:</span>₹130</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chicken Fried Kabab</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹90</div>
+                            <div class="price"><span class="price-label">Full:</span>₹150</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- CHOWMEIN SECTION -->
-        <div class="menu-section fade-in">
-            <div class="section-header">
-                <div class="section-icon">🍜</div>
-                <div class="section-title">CHOWMEIN</div>
+        <!-- Chowmein Detail Page -->
+        <div id="chowmeinPage" class="detail-page">
+            <div class="detail-header">
+                <button class="back-btn" onclick="showMain()">← Back to Menu</button>
+                <span class="detail-icon">🍜</span>
+                <h2 class="detail-title">CHOWMEIN COLLECTION</h2>
             </div>
-            <div class="pricing-header">
-                <div>Item</div>
-                <div>Half</div>
-                <div>Full</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Veg Chowmein</div>
-                <div class="price">₹50/-</div>
-                <div class="price">₹80/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chicken Chowmein</div>
-                <div class="price">₹80/-</div>
-                <div class="price">₹120/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Veg. Singapuri Chowmein</div>
-                <div class="price">₹80/-</div>
-                <div class="price">₹120/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chicken Singapuri Chowmein</div>
-                <div class="price">₹100/-</div>
-                <div class="price">₹140/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chilli Garlic Chowmein</div>
-                <div class="price">₹80/-</div>
-                <div class="price">₹120/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Paneer Chowmein</div>
-                <div class="price">₹80/-</div>
-                <div class="price">₹120/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Egg Chowmein</div>
-                <div class="price">₹60/-</div>
-                <div class="price">₹100/-</div>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Veg Chowmein</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹50</div>
+                            <div class="price"><span class="price-label">Full:</span>₹80</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chicken Chowmein</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹80</div>
+                            <div class="price"><span class="price-label">Full:</span>₹120</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Veg. Singapuri Chowmein</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹80</div>
+                            <div class="price"><span class="price-label">Full:</span>₹120</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chicken Singapuri Chowmein</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹100</div>
+                            <div class="price"><span class="price-label">Full:</span>₹140</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chilli Garlic Chowmein</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹80</div>
+                            <div class="price"><span class="price-label">Full:</span>₹120</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Paneer Chowmein</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹80</div>
+                            <div class="price"><span class="price-label">Full:</span>₹120</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Egg Chowmein</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹60</div>
+                            <div class="price"><span class="price-label">Full:</span>₹100</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- FRIED RICE & CHILLI SECTION -->
-        <div class="menu-section fade-in">
-            <div class="section-header">
-                <div class="section-icon">🍚</div>
-                <div class="section-title">FRIED RICE & CHILLI</div>
+        <!-- Rice & Chilli Detail Page -->
+        <div id="ricePage" class="detail-page">
+            <div class="detail-header">
+                <button class="back-btn" onclick="showMain()">← Back to Menu</button>
+                <span class="detail-icon">🍚</span>
+                <h2 class="detail-title">RICE & CHILLI COLLECTION</h2>
             </div>
-            <div class="pricing-header">
-                <div>Item</div>
-                <div>Half</div>
-                <div>Full</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Veg Fried Rice</div>
-                <div class="price">₹60/-</div>
-                <div class="price">₹100/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Egg Fried Rice</div>
-                <div class="price">₹70/-</div>
-                <div class="price">₹120/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chicken Fried Rice</div>
-                <div class="price">₹90/-</div>
-                <div class="price">₹140/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chilli Garlic Rice</div>
-                <div class="price">₹80/-</div>
-                <div class="price">₹120/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Paneer Fried Rice</div>
-                <div class="price">₹90/-</div>
-                <div class="price">₹140/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chilli Chicken Gravy</div>
-                <div class="price">₹100/-</div>
-                <div class="price">₹200/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chilli Chicken Dry</div>
-                <div class="price">₹100/-</div>
-                <div class="price">₹200/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chilli Paneer Gravy</div>
-                <div class="price">₹100/-</div>
-                <div class="price">₹200/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chilli Paneer Dry</div>
-                <div class="price">₹100/-</div>
-                <div class="price">₹200/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chilli Potato</div>
-                <div class="price">₹60/-</div>
-                <div class="price">₹100/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Honey Chilli Potato</div>
-                <div class="price">₹70/-</div>
-                <div class="price">₹110/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Kurkure Spring Roll</div>
-                <div class="price">₹60/-</div>
-                <div class="price">₹100/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Veg Spring Roll</div>
-                <div class="price">₹30/-</div>
-                <div class="price">₹60/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Veg Manchurian Dry</div>
-                <div class="price">₹90/-</div>
-                <div class="price">₹160/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Veg Manchurian Gravy</div>
-                <div class="price">₹90/-</div>
-                <div class="price">₹160/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chilli Mushroom Dry</div>
-                <div class="price">₹100/-</div>
-                <div class="price">₹180/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Chilli Mushroom Gravy</div>
-                <div class="price">₹100/-</div>
-                <div class="price">₹180/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Black Pepper Chicken Dry</div>
-                <div class="price">₹120/-</div>
-                <div class="price">₹240/-</div>
-            </div>
-            <div class="menu-item">
-                <div class="item-name">Black Pepper Veg Dry</div>
-                <div class="price">₹100/-</div>
-                <div class="price">₹200/-</div>
-            </div>
-        </div>
-
-        <!-- FOOTER -->
-        <div class="footer fade-in">
-            <h3>🏪 CONTACT & DELIVERY INFO</h3>
-            <div class="footer-info">
-                <div class="footer-item">
-                    <strong>📍 Address:</strong>
-                    Shop No. 225, Parmanand Colony<br>
-                    Near SBI ATM
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Veg Fried Rice</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹60</div>
+                            <div class="price"><span class="price-label">Full:</span>₹100</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="footer-item">
-                    <strong>📞 Contact:</strong>
-                    8700613675
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Egg Fried Rice</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹70</div>
+                            <div class="price"><span class="price-label">Full:</span>₹120</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="footer-item">
-                    <strong>🕒 Timing:</strong>
-                    Open Daily<br>
-                    11:00 AM - 11:00 PM
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chicken Fried Rice</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹90</div>
+                            <div class="price"><span class="price-label">Full:</span>₹140</div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="delivery-note">
-                🛵 Minimum Order ₹150/- | Free Home Delivery up to 2 Km
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chilli Garlic Rice</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹80</div>
+                            <div class="price"><span class="price-label">Full:</span>₹120</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Paneer Fried Rice</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹90</div>
+                            <div class="price"><span class="price-label">Full:</span>₹140</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chilli Chicken Gravy</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹100</div>
+                            <div class="price"><span class="price-label">Full:</span>₹200</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chilli Chicken Dry</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹100</div>
+                            <div class="price"><span class="price-label">Full:</span>₹200</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chilli Paneer Gravy</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹100</div>
+                            <div class="price"><span class="price-label">Full:</span>₹200</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chilli Paneer Dry</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹100</div>
+                            <div class="price"><span class="price-label">Full:</span>₹200</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chilli Potato</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹60</div>
+                            <div class="price"><span class="price-label">Full:</span>₹100</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Honey Chilli Potato</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹70</div>
+                            <div class="price"><span class="price-label">Full:</span>₹110</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Kurkure Spring Roll</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹60</div>
+                            <div class="price"><span class="price-label">Full:</span>₹100</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Veg Spring Roll</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹30</div>
+                            <div class="price"><span class="price-label">Full:</span>₹60</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Veg Manchurian Dry</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹90</div>
+                            <div class="price"><span class="price-label">Full:</span>₹160</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Veg Manchurian Gravy</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹90</div>
+                            <div class="price"><span class="price-label">Full:</span>₹160</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chilli Mushroom Dry</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹100</div>
+                            <div class="price"><span class="price-label">Full:</span>₹180</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Chilli Mushroom Gravy</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹100</div>
+                            <div class="price"><span class="price-label">Full:</span>₹180</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Black Pepper Chicken Dry</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹120</div>
+                            <div class="price"><span class="price-label">Full:</span>₹240</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item">
+                    <div class="item-header">
+                        <div class="item-name">Black Pepper Veg Dry</div>
+                        <div class="price-container">
+                            <div class="price"><span class="price-label">Half:</span>₹100</div>
+                            <div class="price"><span class="price-label">Full:</span>₹200</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Smooth scroll animation for elements
+        // Loading screen
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1500);
+        });
+
+        // Navigation functions
+        function showSection(section) {
+            // Add loading effect
+            document.body.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                document.getElementById('mainPage').style.display = 'none';
+                document.getElementById('momosPage').classList.remove('active');
+                document.getElementById('chowmeinPage').classList.remove('active');
+                document.getElementById('ricePage').classList.remove('active');
+                
+                switch(section) {
+                    case 'momos':
+                        document.getElementById('momosPage').classList.add('active');
+                        break;
+                    case 'chowmein':
+                        document.getElementById('chowmeinPage').classList.add('active');
+                        break;
+                    case 'rice':
+                        document.getElementById('ricePage').classList.add('active');
+                        break;
+                }
+                
+                document.body.style.opacity = '1';
+                window.scrollTo(0, 0);
+            }, 300);
+        }
+
+        function showMain() {
+            // Add loading effect
+            document.body.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                document.getElementById('momosPage').classList.remove('active');
+                document.getElementById('chowmeinPage').classList.remove('active');
+                document.getElementById('ricePage').classList.remove('active');
+                document.getElementById('mainPage').style.display = 'block';
+                
+                document.body.style.opacity = '1';
+                window.scrollTo(0, 0);
+            }, 300);
+        }
+
+        // Smooth scroll animations
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
+            entries.forEach((entry, index) => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 100);
                 }
             });
         }, observerOptions);
 
-        // Observe all fade-in elements
-        document.querySelectorAll('.fade-in').forEach(el => {
+        // Observe elements for animation
+        document.querySelectorAll('.section-card, .menu-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
             observer.observe(el);
         });
 
-        // Add click effect to menu items
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', function() {
-                // Create ripple effect
+        // Add ripple effect to clickable items
+        document.querySelectorAll('.section-card, .menu-item, .back-btn').forEach(item => {
+            item.addEventListener('click', function(e) {
                 const ripple = document.createElement('div');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
                 ripple.style.cssText = `
                     position: absolute;
                     border-radius: 50%;
-                    background: rgba(255, 204, 0, 0.3);
+                    background: rgba(255, 215, 0, 0.3);
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
                     transform: scale(0);
                     animation: ripple 0.6s linear;
                     pointer-events: none;
-                    width: 20px;
-                    height: 20px;
-                    left: ${event.clientX - this.offsetLeft - 10}px;
-                    top: ${event.clientY - this.offsetTop - 10}px;
+                    z-index: 1;
                 `;
                 
                 this.style.position = 'relative';
                 this.appendChild(ripple);
                 
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
+                setTimeout(() => ripple.remove(), 600);
             });
         });
 
-        // Add dynamic ripple animation
-        const style = document.createElement('style');
-        style.textContent = `
+        // Add ripple animation keyframes
+        const rippleStyle = document.createElement('style');
+        rippleStyle.textContent = `
             @keyframes ripple {
                 to {
-                    transform: scale(4);
+                    transform: scale(2);
                     opacity: 0;
                 }
             }
         `;
-        document.head.appendChild(style);
+        document.head.appendChild(rippleStyle);
 
-        // Add parallax effect to background
+        // Add floating header scroll effect
+        let lastScrollTop = 0;
         window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallax = document.querySelector('body::before');
-            const speed = scrolled * 0.5;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const header = document.querySelector('.floating-header');
+            
+            if (scrollTop > lastScrollTop) {
+                // Scrolling down
+                header.style.transform = 'translateX(-50%) translateY(-70px)';
+            } else {
+                // Scrolling up
+                header.style.transform = 'translateX(-50%) translateY(0)';
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
         });
 
-        // Add loading animation
-        window.addEventListener('load', () => {
-            document.body.style.opacity = '1';
-            document.body.style.transform = 'translateY(0)';
-        });
-
-        // Preload animations
-        document.body.style.cssText += `
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s ease-out;
-        `;
-
-        // Add phone call analytics (optional)
+        // Add phone call interaction
         document.querySelector('.call-button').addEventListener('click', () => {
-            console.log('Phone call initiated - Analytics can be added here');
+            // Add visual feedback
+            const button = document.querySelector('.call-button');
+            button.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                button.style.transform = 'scale(1)';
+            }, 150);
         });
 
-        // Add menu item favorites (could be extended with localStorage)
-        document.querySelectorAll('.menu-item').forEach((item, index) => {
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const isDetailPageActive = document.querySelector('.detail-page.active');
+                if (isDetailPageActive) {
+                    showMain();
+                }
+            }
+        });
+
+        // Add menu item favorite functionality
+        document.querySelectorAll('.menu-item').forEach(item => {
             item.addEventListener('dblclick', function() {
-                this.style.background = 'linear-gradient(135deg, rgba(255, 204, 0, 0.2), rgba(255, 153, 0, 0.1))';
-                this.style.border = '2px solid var(--primary-gold)';
+                this.style.background = 'linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 149, 0, 0.1))';
+                this.style.borderColor = 'var(--primary-gold)';
                 
-                // Create favorite indicator
-                const heart = document.createElement('span');
-                heart.innerHTML = ' ❤️';
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
                 heart.style.cssText = `
                     position: absolute;
-                    top: 10px;
+                    top: 15px;
                     right: 15px;
-                    animation: heartBeat 1s ease-in-out;
+                    font-size: 1.5rem;
+                    animation: heartPulse 1s ease-in-out;
+                    z-index: 10;
                 `;
                 this.appendChild(heart);
                 
                 setTimeout(() => {
                     this.style.background = '';
-                    this.style.border = '';
+                    this.style.borderColor = '';
                     heart.remove();
-                }, 3000);
+                }, 2500);
             });
         });
 
-        // Add heartbeat animation
+        // Add heart pulse animation
         const heartStyle = document.createElement('style');
         heartStyle.textContent = `
-            @keyframes heartBeat {
-                0% { transform: scale(1); }
-                14% { transform: scale(1.3); }
-                28% { transform: scale(1); }
-                42% { transform: scale(1.3); }
-                70% { transform: scale(1); }
+            @keyframes heartPulse {
+                0% { transform: scale(0); opacity: 0; }
+                50% { transform: scale(1.3); opacity: 1; }
+                100% { transform: scale(1); opacity: 1; }
             }
         `;
         document.head.appendChild(heartStyle);
+
+        // Performance optimization - lazy load animations
+        const lazyAnimationObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section-card').forEach(card => {
+            lazyAnimationObserver.observe(card);
+        });
     </script>
 </body>
 </html>
