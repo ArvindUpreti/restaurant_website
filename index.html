@@ -94,6 +94,8 @@
                 0 0 0 1px rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
             animation: headerFloat 3s ease-in-out infinite;
+            width: auto;
+            max-width: 90vw;
         }
 
         @keyframes headerFloat {
@@ -576,13 +578,12 @@
             .floating-header {
                 position: fixed;
                 top: 10px;
-                left: 10px;
-                right: 10px;
-                transform: none;
-                padding: 15px;
-                border-radius: 25px;
-                width: calc(100% - 20px);
-                text-align: center;
+                left: 50%;
+                transform: translateX(-50%);
+                padding: 12px 20px;
+                border-radius: 30px;
+                width: calc(100vw - 30px);
+                max-width: calc(100vw - 30px);
                 box-sizing: border-box;
             }
 
@@ -592,16 +593,18 @@
                 justify-content: center;
                 width: 100%;
                 text-align: center;
-                flex-direction: row;
+                display: flex;
                 align-items: center;
+                white-space: nowrap;
             }
 
             .phone-icon {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
+                flex-shrink: 0;
             }
 
             .container {
-                padding: 90px 15px 15px;
+                padding: 85px 15px 15px;
             }
 
             .main-header {
@@ -782,20 +785,22 @@
         @media (max-width: 480px) {
             .floating-header {
                 top: 8px;
-                left: 8px;
-                right: 8px;
-                padding: 12px;
-                width: calc(100% - 16px);
+                padding: 10px 15px;
+                width: calc(100vw - 20px);
+                max-width: calc(100vw - 20px);
             }
 
             .call-button {
                 font-size: 0.85rem;
                 gap: 6px;
-                padding: 0;
+            }
+
+            .phone-icon {
+                font-size: 1rem;
             }
 
             .container {
-                padding: 85px 10px 10px;
+                padding: 80px 10px 10px;
             }
 
             .main-title {
@@ -861,16 +866,17 @@
 
         /* Landscape mobile devices */
         @media (max-width: 768px) and (orientation: landscape) {
-            .container {
-                padding: 75px 15px 15px;
-            }
-
             .floating-header {
-                padding: 10px 15px;
+                top: 5px;
+                padding: 8px 15px;
+            }
+            
+            .call-button {
+                font-size: 0.8rem;
             }
 
-            .call-button {
-                font-size: 0.9rem;
+            .container {
+                padding: 65px 15px 15px;
             }
 
             .main-header {
@@ -1619,17 +1625,13 @@
             if (scrollTop > lastScrollTop && scrollTop > 50) {
                 // Scrolling down
                 if (isMobile) {
-                    header.style.transform = 'translateY(-80px)';
+                    header.style.transform = 'translateX(-50%) translateY(-80px)';
                 } else {
                     header.style.transform = 'translateX(-50%) translateY(-70px)';
                 }
             } else {
                 // Scrolling up
-                if (isMobile) {
-                    header.style.transform = 'translateY(0)';
-                } else {
-                    header.style.transform = 'translateX(-50%) translateY(0)';
-                }
+                header.style.transform = 'translateX(-50%) translateY(0)';
             }
             lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
         });
@@ -1637,11 +1639,7 @@
         // Handle window resize for header positioning
         window.addEventListener('resize', () => {
             const header = document.querySelector('.floating-header');
-            if (window.innerWidth > 768) {
-                header.style.transform = 'translateX(-50%) translateY(0)';
-            } else {
-                header.style.transform = 'translateY(0)';
-            }
+            header.style.transform = 'translateX(-50%) translateY(0)';
         });
 
         // Add phone call interaction
